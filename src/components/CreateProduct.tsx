@@ -15,7 +15,11 @@ const productData: IProduct = {
   },
 };
 
-export default function CreateProduct() {
+interface CreateProductProps {
+  onCreate: (product:IProduct) => void;
+}
+
+export default function CreateProduct({ onCreate }: CreateProductProps) {
   const [value, setValue] = useState(" ");
   const [error, setError] = useState(" ");
 
@@ -32,6 +36,7 @@ export default function CreateProduct() {
       "https://fakestoreapi.com/products",
       productData
     );
+    onCreate(response.data);
   };
 
   const changeHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -47,7 +52,8 @@ export default function CreateProduct() {
         onChange={changeHandler}
       />
       {error && <Errors error={error} />}
-      <button className="py-2 px-4 border bg-yellow-400 hover:text-white">
+      <button type="submit" className="py-2 px-4 border bg-yellow-400 hover:text-white"
+      >
         Create
       </button>
     </form>
